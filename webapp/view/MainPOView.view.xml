@@ -7,7 +7,8 @@
   xmlns:richtexteditor="sap.ui.richtexteditor"
   xmlns:viz="sap.viz.ui5"
   controllerName="preview.app.controller.MainPOView"
-  displayBlock="true">
+  displayBlock="true"
+          xmlns:commons="sap.ui.commons">
   <Page title="MainPOView" enableScrolling="true">
     <content>
       <Title id="title_kdbqam8h" text="Purchase Order Overview"/>

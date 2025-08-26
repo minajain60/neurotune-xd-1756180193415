@@ -6,19 +6,43 @@ sap.ui.define([
   "sap/m/MessagePopover",
   "sap/m/MessageItem",
   "sap/ui/core/library",
-  "sap/ui/core/UIComponent"
-], function (Controller, JSONModel, MessageToast, MessageBox, MessagePopover, MessageItem, coreLibrary, UIComponent) {
+  "sap/ui/core/UIComponent",
+  "sap/ui/model/Filter",
+  "sap/ui/model/FilterOperator",
+  "sap/ui/core/util/Export",
+  "sap/ui/core/util/ExportTypeCSV"
+], function (Controller, JSONModel, MessageToast, MessageBox, MessagePopover, MessageItem, coreLibrary, UIComponent, Filter, FilterOperator, Export, ExportTypeCSV) {
   "use strict";
   
   // Shortcut for sap.ui.core.MessageType
   var MessageType = coreLibrary.MessageType;
 
   return Controller.extend("converted.mainpoview.controller.MainPOView", {
+    /**
+     * Called when the main PO view controller is initialized.
+     * Initializes models, including mock data and message models.
+     */
     onInit: function () {
-      // Initialize models
-      var oModel = new JSONModel();
-      this.getView().setModel(oModel);
+      // Load mock data for main header
+      var oMainHeaderModel = new JSONModel();
+      oMainHeaderModel.loadData("model/mockData/mainHeader.json");
+      this.getView().setModel(oMainHeaderModel, "mainHeader");
       
+      // Load mock data for delivery invoice
+      var oDeliveryInvoiceModel = new JSONModel();
+      oDeliveryInvoiceModel.loadData("model/mockData/deliveryInvoice.json");
+      this.getView().setModel(oDeliveryInvoiceModel, "deliveryInvoice");
+
+      // Load mock data for items
+      var oItemsModel = new JSONModel();
+      oItemsModel.loadData("model/mockData/items.json");
+      this.getView().setModel(oItemsModel, "items");
+      
+      // Load mock data for item details
+      var oItemDetailsModel = new JSONModel();
+      oItemDetailsModel.loadData("model/mockData/itemDetails.json");
+      this.getView().setModel(oItemDetailsModel, "itemDetails");
+
       // Initialize message model for MessageArea/MessagePopover
       var oMessageModel = new JSONModel({
         messages: [
@@ -33,20 +57,229 @@ sap.ui.define([
       });
       this.getView().setModel(oMessageModel, "messages");
       
-      // Converted from WebDynpro: 2025-08-26T03:49:58.002Z
+      // Set the initial selected tab key
+      this.selectedTabKey = "DeliveryInvoiceTab";
     },
     
-    // Event handlers
+    /**
+     * Called before the view is rendered.
+     */
     onBeforeRendering: function() {
       // Prepare data before rendering
     },
     
+    /**
+     * Called after the view is rendered.
+     */
     onAfterRendering: function() {
       // Adjust UI after rendering
     },
     
-    // Enhanced event handlers for special WebDynpro elements
+    /**
+     * Event handler for toggling the document overview.
+     */
+    onDocumentOverviewToggle: function() {
+      MessageToast.show("Document Overview toggled");
+    },
     
+    /**
+     * Event handler for saving the document.
+     */
+    onSave: function() {
+      MessageToast.show("Document saved");
+    },
+    
+    /**
+     * Event handler for sending an email.
+     */
+    onEmail: function() {
+      MessageToast.show("Email sent");
+    },
+    
+    /**
+     * Event handler for searching.
+     */
+    onSearch: function() {
+      MessageToast.show("Search initiated");
+    },
+    
+    /**
+     * Event handler for showing history.
+     */
+    onHistory: function() {
+      MessageToast.show("History displayed");
+    },
+    
+    /**
+     * Event handler for showing settings.
+     */
+    onSettings: function() {
+      MessageToast.show("Settings displayed");
+    },
+    
+    /**
+     * Event handler for print preview.
+     */
+    onPrintPreview: function() {
+      MessageToast.show("Print preview displayed");
+    },
+    
+    /**
+     * Event handler for showing messages.
+     */
+    onShowMessages: function() {
+      MessageToast.show("Messages displayed");
+    },
+    
+    /**
+     * Event handler for personal settings.
+     */
+    onPersonalSetting: function() {
+      MessageToast.show("Personal settings displayed");
+    },
+    
+    /**
+     * Event handler for saving as template.
+     */
+    onSaveAsTemplate: function() {
+      MessageToast.show("Saved as template");
+    },
+    
+    /**
+     * Event handler for loading from template.
+     */
+    onLoadFromTemplate: function() {
+      MessageToast.show("Loaded from template");
+    },
+    
+    /**
+     * Event handler for creating a new item.
+     */
+    onNewItem: function() {
+      MessageToast.show("New item created");
+    },
+    
+    /**
+     * Event handler for copying an item.
+     */
+    onCopyItem: function() {
+      MessageToast.show("Item copied");
+    },
+    
+    /**
+     * Event handler for deleting an item.
+     */
+    onDeleteItem: function() {
+      MessageToast.show("Item deleted");
+    },
+    
+    /**
+     * Event handler for locking an item.
+     */
+    onLockItem: function() {
+      MessageToast.show("Item locked");
+    },
+    
+    /**
+     * Event handler for unlocking an item.
+     */
+    onUnlockItem: function() {
+      MessageToast.show("Item unlocked");
+    },
+    
+    /**
+     * Event handler for showing item details.
+     */
+    onShowDetails: function() {
+      MessageToast.show("Details displayed");
+    },
+    
+    /**
+     * Event handler for showing services.
+     */
+    onShowServices: function() {
+      MessageToast.show("Services displayed");
+    },
+    
+    /**
+     * Event handler for showing services history.
+     */
+    onShowServicesHistory: function() {
+      MessageToast.show("Services history displayed");
+    },
+    
+    /**
+     * Event handler for configuring columns.
+     */
+    onConfigureColumns: function() {
+      MessageToast.show("Columns configured");
+    },
+    
+    /**
+     * Event handler for filtering items.
+     */
+    onFilter: function() {
+      MessageToast.show("Filter applied");
+    },
+    
+    /**
+     * Event handler for sorting items.
+     */
+    onSort: function() {
+      MessageToast.show("Sort applied");
+    },
+    
+    /**
+     * Event handler for layout.
+     */
+    onLayout: function() {
+      MessageToast.show("Layout changed");
+    },
+    
+    /**
+     * Event handler for default values.
+     */
+    onDefaultValues: function() {
+      MessageToast.show("Default values applied");
+    },
+    
+    /**
+     * Event handler for additional planning.
+     */
+    onAddlPlanning: function() {
+      MessageToast.show("Additional planning");
+    },
+    
+    /**
+     * Event handler for navigating to the previous item.
+     */
+    onPreviousItem: function() {
+      MessageToast.show("Previous item");
+    },
+    
+    /**
+     * Event handler for navigating to the next item.
+     */
+    onNextItem: function() {
+      MessageToast.show("Next item");
+    },
+    
+    /**
+     * Event handler for item selector change.
+     * @param {sap.ui.base.Event} oEvent The event object
+     */
+    onItemSelectorChange: function(oEvent) {
+      var sSelectedItemKey = oEvent.getParameter("selectedKey");
+      MessageToast.show("Selected item: " + sSelectedItemKey);
+    },
+    
+    /**
+     * Event handler for control code value help.
+     */
+    onControlCodeValueHelp: function() {
+      MessageToast.show("Control code value help");
+    },
+
     /**
      * Handle value help request (for ValueHelp / F4 elements)
      * @param {sap.ui.base.Event} oEvent The event object
@@ -56,13 +289,15 @@ sap.ui.define([
       
       // Create value help dialog if it doesn't exist
       if (!this._valueHelpDialog) {
-        this._valueHelpDialog = new SelectDialog({
+        this._valueHelpDialog = new sap.m.SelectDialog({
           title: "Select Value",
           confirm: function(oEvent) {
             var oSelectedItem = oEvent.getParameter("selectedItem");
             if (oSelectedItem) {
               oSource.setValue(oSelectedItem.getTitle());
             }
+          },
+          cancel: function(oEvent) {
           }
         });
         
@@ -78,7 +313,7 @@ sap.ui.define([
         this._valueHelpDialog.setModel(oDialogModel);
         this._valueHelpDialog.bindAggregation("items", {
           path: "/items",
-          template: new StandardListItem({
+          template: new sap.m.StandardListItem({
             title: "{title}",
             description: "{description}"
           })
@@ -255,6 +490,158 @@ sap.ui.define([
     navTo: function(sRoute) {
       var oRouter = UIComponent.getRouterFor(this);
       oRouter.navTo(sRoute);
+    },
+
+    // --------------- Table Functionality ---------------
+
+    /**
+     * Event handler for searching in the item table.
+     * @param {sap.ui.base.Event} oEvent The event object
+     */
+    onSearchItemTable: function (oEvent) {
+      var sQuery = oEvent.getParameter("query");
+      var aFilters = [];
+
+      if (sQuery) {
+        aFilters.push(new Filter({
+          filters: [
+            new Filter("itemNumber", FilterOperator.Contains, sQuery),
+            new Filter("material", FilterOperator.Contains, sQuery),
+            new Filter("shortText", FilterOperator.Contains, sQuery)
+          ],
+          and: false
+        }));
+      }
+
+      var oTable = this.getView().byId("itemTable");
+      var oBinding = oTable.getBinding("items");
+      oBinding.filter(aFilters);
+    },
+
+    /**
+     * Event handler for exporting the item table to CSV.
+     */
+    onExportToCSV: function() {
+      var oTable = this.byId("itemTable");
+      var aData = oTable.getModel("items").getData().items; // Access the items array
+      var sCsvContent = this._convertToCSV(aData);
+      var oBlob = new Blob([sCsvContent], { type: 'text/csv' });
+      var sUrl = URL.createObjectURL(oBlob);
+      var oLink = document.createElement('a');
+      oLink.href = sUrl;
+      oLink.download = 'item_data_export.csv';
+      oLink.click();
+      URL.revokeObjectURL(sUrl);
+    },
+    
+    /**
+     * Helper function to convert table data to CSV format.
+     * @param {array} aData The data to convert
+     * @private
+     */
+    _convertToCSV: function(aData) {
+      if (!aData || aData.length === 0) return '';
+      var aHeaders = Object.keys(aData[0]);
+      var sCsv = aHeaders.join(',') + '\n';
+      aData.forEach(function(row) {
+        var aValues = aHeaders.map(function(header) {
+          return '"' + (row[header] || '').toString().replace(/"/g, '""') + '"';
+        });
+        sCsv += aValues.join(',') + '\n';
+      });
+      return sCsv;
+    },
+
+    /**
+     * Event handler for exporting the item table to Excel.
+     */
+    onExportToExcel: function() {
+      var oTable = this.byId("itemTable");
+      var oExport = new Export({
+        exportType: new ExportTypeCSV({
+          fileExtension: 'xlsx',
+          mimeType: 'application/vnd.ms-excel'
+        }),
+        models: oTable.getModel("items"), // Access the "items" model
+        rows: {
+          path: "/items" // Path to the items array
+        },
+        columns: this._getExportColumns()
+      });
+      oExport.saveFile("item_data_export").then(function() {
+        MessageToast.show("Export completed successfully");
+      });
+    },
+
+    /**
+     * Helper function to define the columns for export.
+     * @private
+     */
+    _getExportColumns: function() {
+      return [
+        {
+          name: "Item Number",
+          template: {
+            content: "{items>itemNumber}"
+          }
+        },
+        {
+          name: "Material",
+          template: {
+            content: "{items>material}"
+          }
+        },
+        {
+          name: "Short Text",
+          template: {
+            content: "{items>shortText}"
+          }
+        },
+        {
+          name: "PO Quantity",
+          template: {
+            content: "{items>poQuantity}"
+          }
+        },
+        {
+          name: "Order Unit",
+          template: {
+            content: "{items>orderUnit}"
+          }
+        },
+        {
+          name: "Delivery Date",
+          template: {
+            content: "{items>deliveryDate}"
+          }
+        },
+        {
+          name: "Net Price",
+          template: {
+            content: "{items>netPrice}"
+          }
+        },
+        {
+          name: "Currency",
+          template: {
+            content: "{items>currency}"
+          }
+        }
+      ];
+    },
+
+    /**
+     * Event handler for filtering the item table.
+     */
+    onFilterItemTable: function () {
+        MessageToast.show("Filter on Item Table");
+    },
+
+    /**
+     * Event handler for sorting the item table.
+     */
+    onSortItemTable: function () {
+        MessageToast.show("Sort on Item Table");
     }
   });
 });

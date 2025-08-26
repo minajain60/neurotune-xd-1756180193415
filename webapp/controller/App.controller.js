@@ -5,6 +5,10 @@ sap.ui.define([
   "use strict";
 
   return Controller.extend("converted.mainpoview.controller.App", {
+    /**
+     * Called when the app controller is initialized.
+     * Sets up routing and handles initial navigation.
+     */
     onInit: function () {
       console.log("App controller initialized");
       
@@ -23,7 +27,7 @@ sap.ui.define([
         if (!window.location.hash || window.location.hash === "#") {
           console.log("No hash found, navigating to main route");
           setTimeout(function() {
-            oRouter.navTo("RouteMain");
+            oRouter.navTo("main"); // Corrected route name to "main"
           }, 100);
         }
       } else {
