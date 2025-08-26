@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebDynpro xmlns="http://www.sap.com/wd/webdynpro">
+  <View name="MainPOView">
+    <Title>Purchase Order Overview</Title>
+    <MatrixLayout id="RootLayout" width="100%">
+
+        <!-- Global Toolbar -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <Toolbar id="GlobalToolbar" design="Transparent" >
+            <ToolbarCell id="GlobalToolbarCell1">
+                <Link id="DocumentOverviewLink" text="Document Overview On" onAction="onDocumentOverviewToggle" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell2">
+                <Button id="SaveButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/save.gif" tooltip="Save" onAction="onSave" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell3">
+                <Button id="MailButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/email.gif" tooltip="Email" onAction="onEmail" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell4">
+                <Button id="FindButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/search.gif" tooltip="Search" onAction="onSearch" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell5">
+                <Button id="HistoryButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/history.gif" tooltip="History" onAction="onHistory" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell6">
+                <Button id="SettingsButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/personal_settings.gif" tooltip="Settings" onAction="onSettings" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell7_Separator" type="Separator" />
+            <ToolbarCell id="GlobalToolbarCell8_PrintPreview">
+                <Link id="PrintPreviewLink" text="Print Preview" onAction="onPrintPreview" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell9_Messages">
+                <Link id="MessagesLink" text="Messages" onAction="onShowMessages" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell10_PersonalSetting">
+                <Link id="PersonalSettingLink" text="Personal Setting" onAction="onPersonalSetting" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell11_SaveAsTemplate">
+                <Link id="SaveAsTemplateLink" text="Save As Template" onAction="onSaveAsTemplate" />
+            </ToolbarCell>
+            <ToolbarCell id="GlobalToolbarCell12_LoadFromTemplate">
+                <Link id="LoadFromTemplateLink" text="Load from Template" onAction="onLoadFromTemplate" />
+            </ToolbarCell>
+        </Toolbar>
+
+        <!-- Main Header Area (PO Number, Vendor, Doc. Date) -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <FlowLayout id="MainHeaderFlow" hAlign="Left" width="100%">
+            <TextView id="MainTitle" text="Main Repair/RC/RT PO" design="Header2" wrapping="false" />
+            <InputField id="PONumberField" value="{/mainHeader/poNumber}" displayOnly="true" width="10em" />
+            <TextView id="VendorLabel" text="Vendor" design="Label" wrapping="false" />
+            <InputField id="VendorField" value="{/mainHeader/vendorName}" displayOnly="true" width="20em" />
+            <TextView id="DocDateLabel" text="Doc. date" design="Label" wrapping="false" />
+            <DateNavigator id="DocDateField" value="{/mainHeader/docDate}" displayOnly="true" width="8em" />
+            <Image id="WarningIcon" source="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/warning_icon.gif" tooltip="Warning" />
+        </FlowLayout>
+
+        <!-- Main TabStrip -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <TabStrip id="MainTabStrip" selectedTabKey="DeliveryInvoiceTab" width="100%">
+            <Tab id="DeliveryInvoiceTab" text="Delivery/Invoice" key="DeliveryInvoiceTab">
+                <FormContainer id="DeliveryInvoiceForm">
+                    <FormElement id="PaymentTermsElement">
+                        <Label text="Payment Terms" for="PaymentTermsField" />
+                        <InputField id="PaymentTermsField" value="{/deliveryInvoice/paymentTerms}" width="5em" />
+                    </FormElement>
+                    <FormElement id="PaymentInDaysPercentElement">
+                        <Label text="Payment in" for="PaymentInDaysField1" />
+                        <InputField id="PaymentInDaysField1" value="{/deliveryInvoice/paymentInDays1}" width="5em" />
+                        <TextView text="days" />
+                        <InputField id="PaymentInPercentField" value="{/deliveryInvoice/paymentInPercent}" width="5em" />
+                        <TextView text="%" />
+                    </FormElement>
+                    <FormElement id="PaymentInDaysNetElement">
+                        <Label text="Payment in" for="PaymentInDaysField2" />
+                        <InputField id="PaymentInDaysField2" value="{/deliveryInvoice/paymentInDays2}" width="5em" />
+                        <TextView text="days net" />
+                    </FormElement>
+                    <FormElement id="IncotermsElement">
+                        <Label text="Incoterms" for="IncotermsFOBField" />
+                        <InputField id="IncotermsFOBField" value="{/deliveryInvoice/incotermsFOB}" width="5em" />
+                        <InputField id="IncotermsFromPlantField" value="{/deliveryInvoice/incotermsFromPlant}" width="10em" />
+                    </FormElement>
+                    <FormElement id="GRMessageElement">
+                        <Label />
+                        <CheckBox id="GRMessageCheckBox" text="GR Message" selected="{/deliveryInvoice/grMessage}" />
+                    </FormElement>
+                    <FormElement id="CurrencyElement">
+                        <Label text="Currency" for="CurrencyField" />
+                        <InputField id="CurrencyField" value="{/deliveryInvoice/currency}" width="5em" />
+                    </FormElement>
+                    <FormElement id="ExchangeRateElement">
+                        <Label text="Exchange Rate" for="ExchangeRateField" />
+                        <InputField id="ExchangeRateField" value="{/deliveryInvoice/exchangeRate}" width="8em" />
+                    </FormElement>
+                    <FormElement id="ExchangeRateFixedElement">
+                        <Label />
+                        <CheckBox id="ExchangeRateFixedCheckBox" text="Exch.Rate Fixed" selected="{/deliveryInvoice/exchangeRateFixed}" />
+                    </FormElement>
+                </FormContainer>
+            </Tab>
+            <Tab id="ConditionsTab" text="Conditions" key="ConditionsTab" />
+            <Tab id="TextsTab" text="Texts" key="TextsTab" />
+            <Tab id="AddressTab" text="Address" key="AddressTab" />
+            <Tab id="CommunicationTab" text="Communication" key="CommunicationTab" />
+            <Tab id="PartnersTab" text="Partners" key="PartnersTab" />
+            <Tab id="AdditionalDataTab" text="Additional Data" key="AdditionalDataTab" />
+            <Tab id="OrgDataTab" text="Org. Data" key="OrgDataTab" />
+            <Tab id="StatusTab" text="Status" key="StatusTab" />
+            <Tab id="ReleaseStrategyTab" text="Release strategy" key="ReleaseStrategyTab" />
+        </TabStrip>
+
+        <!-- Item Table Toolbar -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <Toolbar id="ItemTableToolbar" design="Transparent" >
+            <ToolbarCell id="ItemTableToolbarCell1">
+                <Button id="NewItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/new_line.gif" tooltip="New Item" onAction="onNewItem" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell2">
+                <Button id="CopyItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/copy_line.gif" tooltip="Copy Item" onAction="onCopyItem" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell3">
+                <Button id="DeleteItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/delete_line.gif" tooltip="Delete Item" onAction="onDeleteItem" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell4">
+                <Button id="LockItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/lock.gif" tooltip="Lock Item" onAction="onLockItem" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell5">
+                <Button id="UnlockItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/unlock.gif" tooltip="Unlock Item" onAction="onUnlockItem" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell6_Separator" type="Separator" />
+            <ToolbarCell id="ItemTableToolbarCell7">
+                <Button id="DetailsButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/details.gif" tooltip="Details" onAction="onShowDetails" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell8">
+                <Button id="ServicesButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/service_order.gif" tooltip="Services" onAction="onShowServices" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell9">
+                <Button id="HistoryServicesButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/history.gif" tooltip="Services History" onAction="onShowServicesHistory" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell10_Separator" type="Separator" />
+            <ToolbarCell id="ItemTableToolbarCell11">
+                <Button id="ConfigureColumnsButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/customize.gif" tooltip="Configure Columns" onAction="onConfigureColumns" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell12">
+                <Button id="FilterButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/filter.gif" tooltip="Filter" onAction="onFilter" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell13">
+                <Button id="SortButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/sort.gif" tooltip="Sort" onAction="onSort" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell14">
+                <Button id="LayoutButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/layout.gif" tooltip="Layout" onAction="onLayout" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell15_RightAligned" hAlign="Right">
+                <Button id="DefaultValuesButton" text="Default Values" onAction="onDefaultValues" />
+            </ToolbarCell>
+            <ToolbarCell id="ItemTableToolbarCell16">
+                <Button id="AddlPlanningButton" text="Addl Planning" onAction="onAddlPlanning" />
+            </ToolbarCell>
+        </Toolbar>
+
+        <!-- Item Table -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <Table id="ItemTable" dataSource="{/items}" selectionMode="single" visibleRowCount="6" width="100%" height="auto">
+            <Columns>
+                <Column id="ItemTable_Col_S" width="2em">
+                    <TextView text="S.." />
+                    <TableImageCell imageSource="{statusIcon}" />
+                </Column>
+                <Column id="ItemTable_Col_Itm" width="3em">
+                    <TextView text="Itm" />
+                    <TableTextViewCell text="{itemNumber}" />
+                </Column>
+                <Column id="ItemTable_Col_A" width="2em">
+                    <TextView text="A" />
+                    <TableTextViewCell text="{aIndicator}" />
+                </Column>
+                <Column id="ItemTable_Col_I" width="2em">
+                    <TextView text="I" />
+                    <TableTextViewCell text="{iIndicator}" />
+                </Column>
+                <Column id="ItemTable_Col_Material" width="8em">
+                    <TextView text="Material" />
+                    <TableTextViewCell text="{material}" />
+                </Column>
+                <Column id="ItemTable_Col_ShortText" width="15em">
+                    <TextView text="Short Text" />
+                    <TableTextViewCell text="{shortText}" />
+                </Column>
+                <Column id="ItemTable_Col_POQuantity" width="8em">
+                    <TextView text="PO Quantity" />
+                    <TableTextViewCell text="{poQuantity}" hAlign="Right" />
+                </Column>
+                <Column id="ItemTable_Col_OrderUnit" width="3em">
+                    <TextView text="O..." />
+                    <TableTextViewCell text="{orderUnit}" />
+                </Column>
+                <Column id="ItemTable_Col_C" width="2em">
+                    <TextView text="C" />
+                    <TableTextViewCell text="{cIndicator}" />
+                </Column>
+                <Column id="ItemTable_Col_DelivDate" width="8em">
+                    <TextView text="Deliv. Date" />
+                    <TableTextViewCell text="{deliveryDate}" />
+                </Column>
+                <Column id="ItemTable_Col_NetPrice" width="8em">
+                    <TextView text="Net Price" />
+                    <TableTextViewCell text="{netPrice}" hAlign="Right" />
+                </Column>
+                <Column id="ItemTable_Col_Currency" width="4em">
+                    <TextView text="Curr..." />
+                    <TableTextViewCell text="{currency}" />
+                </Column>
+                <Column id="ItemTable_Col_Per" width="3em">
+                    <TextView text="Per" />
+                    <TableTextViewCell text="{perUnit}" hAlign="Right" />
+                </Column>
+                <Column id="ItemTable_Col_OrderUnit2" width="3em">
+                    <TextView text="O..." />
+                    <TableTextViewCell text="{orderUnit2}" />
+                </Column>
+                <Column id="ItemTable_Col_MatlGroup" width="8em">
+                    <TextView text="Matl Group" />
+                    <TableTextViewCell text="{materialGroup}" />
+                </Column>
+                <Column id="ItemTable_Col_Plnt" width="5em">
+                    <TextView text="Plnt" />
+                    <TableTextViewCell text="{plant}" />
+                </Column>
+                <Column id="ItemTable_Col_StorLocation" width="8em">
+                    <TextView text="Stor. Location" />
+                    <TableTextViewCell text="{storageLocation}" />
+                </Column>
+                <Column id="ItemTable_Col_B" width="2em">
+                    <TextView text="B" />
+                    <TableTextViewCell text="{bIndicator}" />
+                </Column>
+            </Columns>
+        </Table>
+
+        <!-- Item Details Header and TabStrip -->
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <FlowLayout id="ItemDetailsHeaderFlow" hAlign="Left" width="100%">
+            <TextView id="ItemDetailsLabel" text="Item" design="Label" wrapping="false" />
+            <DropDownByIndex id="ItemSelectorDropdown" selectedKey="{/itemDetails/selectedItemKey}" width="25em" onAction="onItemSelectorChange">
+                <Item key="1" text="[ 1 ] EXTERNAL WORK---HUB GREASING" />
+                <!-- More items would be bound dynamically -->
+            </DropDownByIndex>
+            <Button id="PreviousItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/up.gif" onAction="onPreviousItem" />
+            <Button id="NextItemButton" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/down.gif" onAction="onNextItem" />
+        </FlowLayout>
+
+        <MatrixHeadData rowSpan="1" colSpan="1" />
+        <TabStrip id="ItemDetailsTabStrip" selectedTabKey="ServicesTab" width="100%">
+            <Tab id="ServicesTab" text="Services" key="ServicesTab">
+                <FormContainer id="ServicesForm">
+                    <FormElement id="ControlCodeElement">
+                        <Label text="Control code" for="ControlCodeField" />
+                        <InputField id="ControlCodeField" value="{/itemDetails/services/controlCode}" width="10em" state="Error" />
+                        <Button id="ControlCodeValueHelp" imageSource="/sap/public/bc/webdynpro/mimes/sap/webdynpro/resources/sap.com/tc~wd~dispwda/themes/sap_goldreflection/img/icons/value_help.gif" tooltip="Value Help" onAction="onControlCodeValueHelp" />
+                    </FormElement>
+                </FormContainer>
+            </Tab>
+            <Tab id="LimitsTab" text="Limits" key="LimitsTab" />
+            <Tab id="MaterialDataTab" text="Material Data" key="MaterialDataTab" />
+            <Tab id="QuantitiesWeightsTab" text="Quantities/Weights" key="QuantitiesWeightsTab" />
+            <Tab id="DeliveryScheduleTab" text="Delivery Schedule" key="DeliveryScheduleTab" />
+            <Tab id="DeliveryTab" text="Delivery" key="DeliveryTab" />
+            <Tab id="InvoiceTab" text="Invoice" key="InvoiceTab" />
+            <Tab id="ConditionsTab2" text="Conditions" key="ConditionsTab2" />
+            <Tab id="IndiaTab" text="India" key="IndiaTab" />
+            <Tab id="AccountAssignmentTab" text="Account Assignment" key="AccountAssignmentTab" />
+            <Tab id="PurchaseOrderHistoryTab" text="Purchase Ord..." key="PurchaseOrderHistoryTab" />
+        </TabStrip>
+
+    </MatrixLayout>
+  </View>
+
+  <Controller name="MainPOView">
+    <Methods>
+      <!-- Global Toolbar Methods -->
+      <Method name="onDocumentOverviewToggle" signature="public void onDocumentOverviewToggle()" />
+      <Method name="onSave" signature="public void onSave()" />
+      <Method name="onEmail" signature="public void onEmail()" />
+      <Method name="onSearch" signature="public void onSearch()" />
+      <Method name="onHistory" signature="public void onHistory()" />
+      <Method name="onSettings" signature="public void onSettings()" />
+      <Method name="onPrintPreview" signature="public void onPrintPreview()" />
+      <Method name="onShowMessages" signature="public void onShowMessages()" />
+      <Method name="onPersonalSetting" signature="public void onPersonalSetting()" />
+      <Method name="onSaveAsTemplate" signature="public void onSaveAsTemplate()" />
+      <Method name="onLoadFromTemplate" signature="public void onLoadFromTemplate()" />
+
+      <!-- Item Table Toolbar Methods -->
+      <Method name="onNewItem" signature="public void onNewItem()" />
+      <Method name="onCopyItem" signature="public void onCopyItem()" />
+      <Method name="onDeleteItem" signature="public void onDeleteItem()" />
+      <Method name="onLockItem" signature="public void onLockItem()" />
+      <Method name="onUnlockItem" signature="public void onUnlockItem()" />
+      <Method name="onShowDetails" signature="public void onShowDetails()" />
+      <Method name="onShowServices" signature="public void onShowServices()" />
+      <Method name="onShowServicesHistory" signature="public void onShowServicesHistory()" />
+      <Method name="onConfigureColumns" signature="public void onConfigureColumns()" />
+      <Method name="onFilter" signature="public void onFilter()" />
+      <Method name="onSort" signature="public void onSort()" />
+      <Method name="onLayout" signature="public void onLayout()" />
+      <Method name="onDefaultValues" signature="public void onDefaultValues()" />
+      <Method name="onAddlPlanning" signature="public void onAddlPlanning()" />
+
+      <!-- Item Details Header Methods -->
+      <Method name="onPreviousItem" signature="public void onPreviousItem()" />
+      <Method name="onNextItem" signature="public void onNextItem()" />
+      <Method name="onItemSelectorChange" signature="public void onItemSelectorChange(java.lang.String selectedKey)" />
+
+      <!-- Item Details - Services Tab Methods -->
+      <Method name="onControlCodeValueHelp" signature="public void onControlCodeValueHelp()" />
+    </Methods>
+  </Controller>
+</WebDynpro>
